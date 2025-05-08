@@ -1,0 +1,175 @@
+Data Visualization I 
+1. Use the inbuilt dataset 'titanic'. The dataset contains 891 rows and contains information 
+about the passengers who boarded the unfortunate Titanic ship. Use the Seaborn library 
+to see if we can find any patterns in the data.  
+2. Write a code to check how the price of the ticket (column name: 'fare') for each 
+passenger is distributed by plotting a histogram. 
+
+# Step 1: Import required libraries
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Step 2: Load the Titanic dataset from seaborn
+titanic = sns.load_dataset('titanic')
+
+# Step 3: View the shape and first few rows
+print("Dataset Dimensions:", titanic.shape)
+print("\nFirst 5 rows:\n", titanic.head())
+
+# Step 4: Check for null values
+print("\nNull Values in Dataset:\n", titanic.isnull().sum())
+
+# Fill numeric columns with mean values
+numeric_columns = titanic.select_dtypes(include='number').columns
+
+for col in numeric_columns:
+    if titanic[col].isnull().sum() > 0:
+        titanic[col].fillna(titanic[col].mean(), inplace=True)
+
+# Recheck if null values still exist
+print("\nNull Values After Filling with Mean:\n", titanic[numeric_columns].isnull().sum())
+
+# Plot histogram of ticket fare
+plt.figure(figsize=(10, 6))
+sns.histplot(titanic['fare'], kde=True, bins=30, color='skyblue')
+plt.title('Distribution of Ticket Fare')
+plt.xlabel('Fare')
+plt.ylabel('Number of Passengers')
+plt.grid(True)
+plt.show()
+
+
+We loaded the Titanic dataset using Seaborn.
+
+We checked for missing values and replaced them with the mean for numeric columns.
+
+We used a histogram to visualize how the ticket fares are distributed.
+
+The fare distribution is right-skewed: most passengers paid lower fares, while a few paid very high fares.
+
+
+
+🎯 Aim:
+To analyze the Titanic dataset using Seaborn and Matplotlib, fill missing values, and visualize the distribution of ticket fares using a histogram.
+
+🧾 Step-by-Step Code and Explanation
+🔹 Step 1: Import Required Libraries
+python
+Copy
+Edit
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+✅ Explanation:
+
+pandas is used for data handling and analysis.
+
+seaborn is a Python data visualization library based on matplotlib. It gives attractive statistical plots.
+
+matplotlib.pyplot helps us to plot graphs and customize them.
+
+🔹 Step 2: Load Titanic Dataset from Seaborn
+python
+Copy
+Edit
+titanic = sns.load_dataset('titanic')
+✅ Explanation:
+
+Loads the inbuilt Titanic dataset directly from Seaborn. It contains 891 rows and 15 columns with information about passengers (e.g., age, sex, fare, survival, etc.).
+
+🔹 Step 3: View Dataset Dimensions and First Few Rows
+python
+Copy
+Edit
+print("Dataset Dimensions:", titanic.shape)
+print("\nFirst 5 rows:\n", titanic.head())
+✅ Explanation:
+
+titanic.shape: Tells us how many rows and columns are in the dataset → (891, 15)
+
+titanic.head(): Displays the first 5 rows to get a quick overview of the data structure and sample values.
+
+🔹 Step 4: Check for Null (Missing) Values
+python
+Copy
+Edit
+print("\nNull Values in Dataset:\n", titanic.isnull().sum())
+✅ Explanation:
+
+isnull().sum(): Checks for missing (null) values column-wise.
+
+In Titanic, you’ll find missing values in columns like age, embarked, and deck.
+
+🔹 Step 5: Fill Null Values in Numeric Columns with Mean
+python
+Copy
+Edit
+numeric_columns = titanic.select_dtypes(include='number').columns
+
+for col in numeric_columns:
+    if titanic[col].isnull().sum() > 0:
+        titanic[col].fillna(titanic[col].mean(), inplace=True)
+✅ Explanation:
+
+We only fill numeric columns (like age, fare) with their mean values.
+
+It ensures no blank data remains that might affect analysis or visualization.
+
+🔹 Step 6: Recheck for Null Values in Numeric Columns
+python
+Copy
+Edit
+print("\nNull Values After Filling with Mean:\n", titanic[numeric_columns].isnull().sum())
+✅ Explanation:
+
+We verify that all missing numeric values (e.g., in age, fare) are now handled.
+
+Should return 0 for all numeric columns.
+
+📊 Step 7: Plot Histogram of Ticket Fare
+python
+Copy
+Edit
+plt.figure(figsize=(10, 6))
+sns.histplot(titanic['fare'], kde=True, bins=30, color='skyblue')
+plt.title('Distribution of Ticket Fare')
+plt.xlabel('Fare')
+plt.ylabel('Number of Passengers')
+plt.grid(True)
+plt.show()
+✅ Explanation:
+
+plt.figure(figsize=(10, 6)): Sets the size of the plot window.
+
+sns.histplot(): Plots the histogram for the fare column.
+
+bins=30: Divides the fare range into 30 equal parts (bars).
+
+kde=True: Adds a Kernel Density Estimate (smooth curve) on top of the histogram.
+
+xlabel, ylabel, title: Labels and titles for clarity.
+
+grid=True: Adds a background grid to make reading values easier.
+
+📈 How to Read the Histogram Plot
+✅ Viva-Ready Notes:
+Each bar (bin) in the histogram shows how many passengers bought tickets within a certain fare range.
+
+The taller the bar, the more passengers paid within that range.
+
+The x-axis represents the fare amount.
+
+The y-axis shows the number of passengers who paid that fare.
+
+The smooth curve (KDE) helps to see the overall shape of the distribution.
+
+You’ll likely see a right-skewed distribution:
+
+Most passengers paid low fares.
+
+A few paid very high fares (1st class).
+
+🧠 Final Viva Inference:
+“We imported and cleaned the Titanic dataset by filling missing numeric values with mean. Then, we visualized the ticket fare distribution using a histogram. The plot showed that most passengers paid lower fares, with fewer passengers in higher fare brackets, resulting in a right-skewed distribution.”
+

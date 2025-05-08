@@ -1,0 +1,68 @@
+.  Data Visualization III 
+Download the Iris flower dataset or any other dataset into a DataFrame. (e.g., 
+https://archive.ics.uci.edu/ml/datasets/Iris ). Scan the dataset and give the inference as: 
+1. List down the features and their types (e.g., numeric, nominal) available in the dataset. 
+2. Create a histogram for each feature in the dataset to illustrate the feature distributions.  
+3. Create a box plot for each feature in the dataset.  
+4. Compare distributions and identify outliers. 
+
+# Step 1: Import required libraries
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Step 2: Load the Iris dataset from seaborn
+iris = sns.load_dataset('iris')
+
+# Step 3: Display the first few rows of the dataset
+print("Sample Data:\n", iris.head())
+
+# Step 4: Show the structure and types of features
+print("\nDataset Info:")
+print(iris.info())
+
+print("\nFeature Types:")
+for col in iris.columns:
+    if iris[col].dtype == 'object':
+        print(f"{col}: Nominal (Categorical)")
+    else:
+        print(f"{col}: Numeric")
+
+# Step 5: Plot histograms for all numeric features
+iris.hist(figsize=(10, 8), bins=15, color='lightblue', edgecolor='black')
+plt.suptitle("Histogram for Each Numeric Feature")
+plt.tight_layout()
+plt.show()
+
+# Step 6: Plot box plots for each numeric feature
+plt.figure(figsize=(12, 8))
+for i, col in enumerate(iris.select_dtypes(include='number').columns):
+    plt.subplot(2, 2, i + 1)
+    sns.boxplot(y=iris[col], color='lightgreen')
+    plt.title(f'Box Plot of {col}')
+plt.tight_layout()
+plt.show()
+
+
+🧠 Step 7: Observations / Inference
+✅ Distribution Insights:
+Histograms show:
+
+Sepal length and petal length are fairly normally distributed.
+
+Petal width is skewed right (more lower values).
+
+Sepal width is slightly left-skewed.
+
+🚨 Outlier Detection via Box Plot:
+Sepal width shows clear outliers (visible as dots).
+
+Other features are more stable, but small outliers exist for petal length.
+
+🌸 Species Relevance:
+Petal-related features show more variation between species.
+
+Helps in classification of iris species (e.g., setosa, versicolor, virginica).
+
+✅ Final Viva-Ready Summary:
+“We analyzed the Iris dataset to understand feature distributions and outliers. All features are numeric except species, which is nominal. Histograms show overall distribution, and box plots helped detect outliers — especially in sepal width. Petal features vary significantly across species, making them useful for classification.”

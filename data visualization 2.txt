@@ -1,0 +1,62 @@
+ Data Visualization II 
+1. Use the inbuilt dataset 'titanic' as used in the above problem. Plot a box plot for 
+distribution of age with respect to each gender along with the information about whether 
+they survived or not. (Column names : 'sex' and 'age') 
+2. Write observations on the inference from the above statistics. 
+
+# Step 1: Import required libraries
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Step 2: Load the Titanic dataset
+titanic = sns.load_dataset('titanic')
+
+# Step 3: Check for null values in 'age' and fill them with the mean
+print("Null values before filling:\n", titanic[['age', 'sex', 'survived']].isnull().sum())
+
+# Fill missing age values with the mean
+titanic['age'].fillna(titanic['age'].mean(), inplace=True)
+
+# Recheck if nulls remain
+print("\nNull values after filling:\n", titanic[['age', 'sex', 'survived']].isnull().sum())
+
+# Step 4: Box plot for age distribution by sex and survival
+plt.figure(figsize=(10, 6))
+sns.boxplot(data=titanic, x='sex', y='age', hue='survived', palette='Set2')
+plt.title('Age Distribution by Gender and Survival Status')
+plt.xlabel('Gender')
+plt.ylabel('Age')
+plt.legend(title='Survived', labels=['No (0)', 'Yes (1)'])
+plt.grid(True)
+plt.show()
+
+
+🧠 Viva-Ready Observations / Inference
+✅ Key Points to Mention:
+Female Passengers:
+
+A majority survived.
+
+Surviving females were generally younger.
+
+Suggests priority given to women during evacuation.
+
+Male Passengers:
+
+Fewer survived, especially middle-aged and older males.
+
+Mostly younger boys (children) had higher survival.
+
+Age Spread:
+
+The box plot shows the median (middle line), IQR (box width), and outliers (dots).
+
+Outliers are visible in both genders but more common in males.
+
+Survival Insight:
+
+Titanic followed a “women and children first” rescue policy.
+
+✅ Final Viva-Ready Summary:
+“We visualized the age distribution across gender and survival status using a box plot. Females had a higher survival rate, especially younger ones. Among males, survival was lower overall. The visualization clearly shows survival chances were related to gender and age.”
