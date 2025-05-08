@@ -1,0 +1,85 @@
+ Data Analytics III 
+1. Implement Simple Naïve Bayes classification algorithm using Python/R on iris.csv 
+dataset. 
+2. Compute Confusion matrix to find TP, FP, TN, FN, Accuracy, Error rate, Precision, 
+Recall on the given dataset. 
+
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+
+df = pd.read_csv('/content/Iris.csv')
+df
+
+
+df.drop('Id',axis=1,inplace=True)
+df
+
+# Preprocessing
+df.describe()
+
+df.isnull().sum()
+
+# Independent Varaibles
+X = df[['SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm']]
+X
+
+
+#  Dependent Variable
+Y = df['Species']
+Y
+
+from sklearn.preprocessing import LabelEncoder
+le = LabelEncoder()
+df['Species'] = le.fit_transform(df['Species'])
+df
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.25)
+
+# data ransformation of independent variables
+from sklearn.preprocessing import MinMaxScaler
+scaler = MinMaxScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+
+from sklearn.naive_bayes import GaussianNB
+gnb = GaussianNB()
+gnb.fit(X_train, Y_train)
+
+Y_predict = gnb.predict(X_test)
+
+plt.scatter(Y_test,Y_predict)
+
+from sklearn.metrics import confusion_matrix,ConfusionMatrixDisplay
+cm = confusion_matrix(Y_test, Y_predict)
+
+TN = cm[0][0]
+TP = cm[1][1]
+FN = cm[1][0]
+FP= cm[0][1]
+print(f"TN : {TN}")
+print(f"TP : {TP}")
+print(f"FN : {FN}")
+print(f"FP : {FP}")
+
+confusionDisplay = ConfusionMatrixDisplay(cm)
+
+confusionDisplay.plot()
+
+accuracy = (TP+TN) / (TP+TN+FP+FN)
+accuracy
+
+errorRate = 1-accuracy
+errorRate
+
+precision = TP / (TP+FP)
+precision
+
+recall = TP / (TP+FN)
+recall
+

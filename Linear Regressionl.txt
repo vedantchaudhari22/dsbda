@@ -1,0 +1,67 @@
+# Create a Linear Regression Model using Python/R to predict home prices using Boston Housing
+# Dataset (https://www.kaggle.com/c/boston-housing). The Boston Housing dataset contains
+# information about various houses in Boston through different parameters. There are 506 samples
+# and 14 feature variables in this dataset.
+# The objective is to predict the value of prices of the house using the given features.
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn import metrics
+from sklearn.metrics import mean_squared_error
+
+df = pd.read_csv("/content/HousingData.csv")
+df
+ 
+df.isnull().sum()
+
+crim_mean = df["CRIM"].mean()
+df["CRIM"].fillna(crim_mean, inplace=True)
+df.head(50)
+
+zn_mean = df["ZN"].mean()
+df["ZN"].fillna(zn_mean, inplace=True)
+df.head(50)
+
+indus_mean = df["INDUS"].mean()
+df["INDUS"].fillna(indus_mean, inplace=True)
+df.head(50)
+
+chas_mean = df["CHAS"].mean()
+df["CHAS"].fillna(chas_mean, inplace=True)
+df.head(50)
+
+age_mean = df["AGE"].mean()
+df["AGE"] = df["AGE"].fillna(age_mean)
+df.head(50)
+
+lstat_mean = df["LSTAT"].mean()
+df["LSTAT"].fillna(lstat_mean, inplace=True)
+df.head(50)
+
+df.isnull().sum()
+
+df.columns
+
+x = df[['CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'DIS', 'RAD', 'TAX',
+       'PTRATIO', 'B', 'LSTAT']]
+y = df['MEDV']
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25, random_state=42)
+
+model = LinearRegression()
+model.fit(x_train, y_train)
+
+y_predict = model.predict(x_test)
+
+y_predict 
+
+model.score(x_train, y_train)
+
+model.score(x_test, y_test)
+
+np.sqrt(mean_squared_error(y_test, y_predict))
+

@@ -1,0 +1,167 @@
+# 3.  Descriptive Statistics - Measures of Central Tendency and variability
+# Perform the following operations on any open source dataset (e.g., data.csv)
+# 1. Provide summary statistics (mean, median, minimum, maximum, standard deviation) for
+# a dataset (age, income etc.) with numeric variables grouped by one of the qualitative
+# (categorical) variable. For example, if your categorical variable is age groups and
+# quantitative variable is income, then provide summary statistics of income grouped by
+# the age groups. Create a list that contains a numeric value for each response to the
+# categorical variable.
+# 2. Write a Python program to display some basic statistical details like percentile, mean,
+# standard deviation etc. of the species of ‘Iris-setosa’, ‘Iris-versicolor’ and ‘Iris
+# versicolor’ of iris.csv dataset
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df = pd.read_csv('/content/Iris.csv')
+df
+
+# 1. Provide summary statistics (mean, median, minimum, maximum, standard deviation) for
+# a dataset (age, income etc.) with numeric variables grouped by one of the qualitative
+# (categorical) variable. For example, if your categorical variable is age groups and
+# quantitative variable is income, then provide summary statistics of income grouped by
+# the age groups. Create a list that contains a numeric value for each response to the
+# categorical variable.
+
+df.describe()
+
+
+df["SepalLengthCm"].describe()
+
+df.groupby("Species").describe()
+
+df.groupby("Species").sum()
+
+
+
+✅ Practical 3: Descriptive Statistics
+🔍 Topic: Measures of Central Tendency and Variability using the Iris dataset
+🎯 Aim:
+To compute summary statistics like mean, median, min, max, and standard deviation, grouped by a categorical variable (Species). Also, to display detailed statistics for each Iris species.
+
+📌 Step-by-Step Explanation with Code
+🔹 Step 1: Import Required Libraries
+python
+Copy
+Edit
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+✅ Explanation:
+
+numpy – for numerical operations (optional but standard).
+
+pandas – for loading and manipulating data.
+
+matplotlib.pyplot & seaborn – for plotting (used if you visualize data).
+
+🔹 Step 2: Load the Dataset
+python
+Copy
+Edit
+df = pd.read_csv('/content/Iris.csv')
+df
+✅ Explanation:
+
+Loads the Iris dataset using pandas.read_csv().
+
+The dataset includes 5 numerical features: SepalLengthCm, SepalWidthCm, PetalLengthCm, PetalWidthCm, and one categorical variable: Species.
+
+🔹 Step 3: General Summary Statistics
+python
+Copy
+Edit
+df.describe()
+✅ Explanation:
+
+describe() gives basic statistics for each numerical column:
+
+count, mean, std (standard deviation), min, 25%, 50% (median), 75%, and max.
+
+Helps understand the spread and central tendency of the entire dataset.
+
+🔹 Step 4: Summary for Specific Column – SepalLengthCm
+python
+Copy
+Edit
+df["SepalLengthCm"].describe()
+✅ Explanation:
+
+Shows statistical summary only for SepalLengthCm column.
+
+This is useful when analyzing a specific feature in depth.
+
+🔹 Step 5: Grouped Summary Statistics by Species
+python
+Copy
+Edit
+df.groupby("Species").describe()
+✅ Explanation:
+
+Groups the data by Species (categorical variable).
+
+For each group, provides detailed statistics for all numerical features:
+
+This answers: "What are the mean, median, min, max, and std of Sepal and Petal sizes for each Iris species?"
+
+🔹 Step 6: Group-wise Total (Sum)
+python
+Copy
+Edit
+df.groupby("Species").sum()
+✅ Explanation:
+
+Shows the sum of each numeric feature for each Iris species.
+
+Useful to compare the total size measurements among species.
+
+✅ Viva Question – How to Create List of Numeric Responses for Each Category
+You can convert grouped data into a list like this:
+
+python
+Copy
+Edit
+sepal_length_list = df.groupby("Species")["SepalLengthCm"].apply(list)
+print(sepal_length_list)
+✅ Explanation:
+
+Creates a list of values for SepalLength for each species.
+
+Helps to visualize or apply statistics (like plotting histograms, boxplots, etc.).
+
+📌 Second Task: Detailed Statistics by Species
+🧾 Problem:
+Display statistical details like percentiles, mean, standard deviation for each species: Iris-setosa, Iris-versicolor, Iris-virginica.
+
+python
+Copy
+Edit
+for species in df["Species"].unique():
+    print(f"\nStatistics for {species}:")
+    print(df[df["Species"] == species].describe())
+✅ Explanation:
+
+Iterates through all unique values in Species.
+
+Filters the dataset for each species and prints describe().
+
+Clearly shows:
+
+Mean, median, percentiles, min, max, standard deviation for each species.
+
+📈 Optional: Visual Insights (You can say this if viva asks)
+python
+Copy
+Edit
+sns.boxplot(x="Species", y="SepalLengthCm", data=df)
+plt.title("Sepal Length Distribution by Species")
+plt.show()
+This shows distribution and outliers for each category.
+
+The boxplot makes it easier to compare median, spread, and outliers across species.
+
+🧠 Viva-Ready Summary (What You Can Say):
+“We loaded the Iris dataset and analyzed it using Pandas. We grouped the data by Species and calculated descriptive statistics like mean, median, min, max, and standard deviation for each group. We used groupby() and describe() to compare the variations in sepal and petal sizes across species. We also created lists of values grouped by category for deeper analysis. This helps in understanding how each species differs based on measurable flower dimensions.”
